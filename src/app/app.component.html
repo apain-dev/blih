@@ -1,0 +1,42 @@
+<div class="wrapper" style="min-height: -webkit-fill-available">
+
+  <!-- Main Header -->
+  <app-header ></app-header>
+  <!-- Left side column. contains the lsdfsdfogo and sidebar -->
+  <app-sidebar ></app-sidebar>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1><i class="fa fa-{{ routeInfo.active.logo}} text-light-blue"></i>
+        {{ routeInfo.active.path }}
+        <small *ngIf="routeInfo.active.path === 'home'">{{ Blih.repo.length}}</small>
+        <small>{{ routeInfo.active.description}}</small>
+        <small *ngIf="routeInfo.active.path === 'more'">{{ Blih._selected._name }}</small>
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content" style="min-height: -webkit-fill-available">
+      <router-outlet></router-outlet>
+    </section>
+    <ng2-toasty [position]="'bottom-right'"></ng2-toasty>
+    <!-- /.content -->
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+  </div>
+  <footer class="main-footer navbar-fixed-bottom">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      V 1.0.4a-latest
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2018</strong> All rights reserved.
+  </footer>
+  <!-- Control Sidebar -->
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+
+</div>

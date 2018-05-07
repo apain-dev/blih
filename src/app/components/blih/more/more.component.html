@@ -1,0 +1,69 @@
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " style="float: none; margin: auto">
+  <a href="#" class="text-info" routerLink="/home"><i class="fa fa-angle-left"> back</i></a>
+  <div class="text-center card-box">
+    <div class="member-card">
+      <div class="thumb-lg member-thumb m-b-10 center-page">
+        <img src="assets/img/folder.svg" class="rounded-circle img-thumbnail" style="width: 30%; background: transparent;border:none"
+             alt="profile-image">
+      </div>
+
+      <div class="">
+        <h5 class="m-b-5 m-t-10">{{ _repo._name }}</h5>
+        <p class="text-bold" [style.color]="(_repo.contributor?._color) ? _repo.contributor?._color : ''" >{{ _user.mail }}</p>
+      </div>
+
+      <button class="btn btn-info" popover="Clone repo" triggers="mouseenter:mouseleave" (click)="clone()"><i
+        class="fa fa-download"></i></button>
+      <app-modal ngbPopover="Add ACL to your repo" triggers="mouseenter:mouseleave" popoverTitle="Add ACL" [repo]="_repo"
+                 (newAcl)="addAccess($event)"></app-modal>
+      <div *ngIf="!_isLoading">
+        <div class="text-left m-t-40" *ngIf="!_description.isError">
+          <p class="text-muted font-13"><strong>Name: </strong> <span class="m-l-15">{{ _repo._name }}</span></p>
+
+          <p class="text-muted font-13"><strong>URL: </strong><span class="m-l-15">{{ _git }}<a class="btn btn-lg" (click)="copySuccess()"><i class="fa fa-copy"></i></a></span>
+          </p>
+
+          <p class="text-muted font-13"><strong>Description: </strong> <span class="m-l-15">{{ _description.data.description }}</span>
+          </p>
+
+          <p class="text-muted font-13"><strong>Date: </strong> <span class="m-l-15 text-info">{{ _description.data.creation_time }}</span>
+          </p>
+        </div>
+      </div>
+      <app-loader *ngIf="_isLoading"></app-loader>
+      <div class="bottom" *ngIf="!_isLoading">
+        <table class="table" *ngIf="!_acl._status">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Access</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of _acl._data; let i = index">
+            <th scope="row">{{ i }}</th>
+            <td>{{ item.agent }}</td>
+            <td class="text-white">
+              <a *ngIf="item.access.search('r') > -1" popover="Read" triggers="mouseenter:mouseleave"
+                 class="btn btn-success">R</a>
+              <a *ngIf="item.access.search('w') > -1" popover="Write" triggers="mouseenter:mouseleave"
+                 class="btn btn-warning">W</a>
+              <a *ngIf="item.access.search('a') > -1" popover="Admin" triggers="mouseenter:mouseleave"
+                 class="btn btn-danger">A</a>
+              <a *ngIf="item.access.length === 0" class="btn btn-warning">No access</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <alert *ngIf="_acl._status || _description.isError" type="warning">
+
+            <p *ngIf="_acl._status">{{ _acl._data }}</p>
+            <p *ngIf="_description.isError">{{ _description.data }}</p>
+        </alert>
+      </div>
+    </div>
+
+  </div> <!-- end card-box
+</div>
+-->

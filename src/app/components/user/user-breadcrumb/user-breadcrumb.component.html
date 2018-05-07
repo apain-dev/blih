@@ -1,0 +1,11 @@
+<ol class="breadcrumb" style="display: inline-flex">
+  <li class="breadcrumb-item {{ (step === 0) ? 'text-info' :
+ (stepError) ? 'text-error' : 'text-success' }}"><span><b>User</b></span></li>
+  <li class="breadcrumb-item {{ (step === 1) ? 'text-info' :
+ (step < 1) ? 'text-muted': (stepError) ? 'text-danger' : 'text-success' }}"><span><b>Configuration</b></span>
+  </li>
+
+  <li
+    class="breadcrumb-item {{ (step < 2) ? 'text-muted' : (stepError) ? 'text-danger' : 'text-success' }}">
+    <span><b>Ready</b></span></li>
+</ol>

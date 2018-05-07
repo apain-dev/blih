@@ -1,0 +1,109 @@
+<div class="container-fluid" style="margin-top: 3%" [@FADE_IN]="'in'">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-4 col-sm-offset-2 col-md-offset-3"
+         style="float: none; margin: auto">
+      <ol class="breadcrumb" style="display: inline-flex">
+        <li class="breadcrumb-item {{ (step.step === 0) ? 'text-info' :
+ (step.error) ? 'text-error' : 'text-success' }}"><span><b>User</b></span></li>
+        <li class="breadcrumb-item {{ (step.step === 1 && !config.ready) ? 'text-info' :
+ (step.step < 1) ? 'text-muted': (step.error) ? 'text-danger' : 'text-success' }}"><span><b>Configuration</b></span>
+        </li>
+
+        <li
+          class="breadcrumb-item {{ (step.step !== 1 || !config.ready) ? 'text-muted' : (step.error) ? 'text-danger' : 'text-success' }}">
+          <span><b>Ready</b></span></li>
+      </ol>
+      <div class="card" *ngIf="step.step === 0">
+        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+          <div class="card-body">
+            <hr class="colorgraph">
+            <p>Please tell me a little bit more about you</p>
+            <div class="row ">
+              <div class="col-xs-10 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <input type="text" name="first_name" id="first_name" [(ngModel)]="modifiedUser.firstName"
+                         class="form-control input-lg"
+                         placeholder="First Name" tabindex="1" name="firstName" #firstName="ngModel" required>
+                  <div [hidden]="firstName.valid || firstName.pristine"
+                       class="alert alert-danger">
+                    First name is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <input type="text" name="last_name" id="last_name" [(ngModel)]="modifiedUser.lastName"
+                         class="form-control input-lg" placeholder="Last Name"
+                         tabindex="2" required name="lastName" #lastName="ngModel">
+                  <div [hidden]="lastName.valid || lastName.pristine"
+                       class="alert alert-danger">
+                    Last name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-10 col-sm-10 col-md-10 form-group">
+                <input type="email" name="email" id="email" class="form-control input-lg"
+                       [(ngModel)]="modifiedUser.mail"
+                       placeholder="Email Address"
+                       tabindex="4" name="mail" #mail="ngModel" required>
+                <div [hidden]="mail.valid || mail.pristine"
+                     class="alert alert-danger">
+                  Mail is required
+                </div>
+              </div>
+              <div class="col-2">
+                <app-info text="Your epitech email adress"></app-info>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-8 col-sm-8 col-md-8 form-group">
+                <input type="password" name="pass" id="pass" class="form-control input-lg"
+                       [(ngModel)]="modifiedUser.pass"
+                       placeholder="Password"
+                       tabindex="4" name="pass" minlength="8" maxlength="8" #pass="ngModel" required>
+                <div [hidden]="pass.valid || pass.pristine"
+                     class="alert alert-danger">
+                  Password is required
+                </div>
+              </div>
+              <div class="col-2">
+                <app-info text="Your epitech pass"></app-info>
+              </div>
+            </div>
+
+            <alert *ngIf="needTest" type="warning"><strong>Warning </strong> User's token has been modify. We need to re-run some test</alert>
+
+            <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+              Keep in mind that we never stock your pass in our database !
+            </p>
+            <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid || needTest">Save</button>
+            <button  class="btn btn-warning" *ngIf="needTest">Run</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="card" *ngIf="step.step === 1">
+        <div class="card-body">
+
+          <p>Let's launch some test</p>
+          <hr class="colorgraph">
+          <app-progress-bar style="width: 100%" title="Test 0: Whoami"
+                            [test]="config.first"></app-progress-bar>
+          <app-progress-bar style="width: 100%; margin-top: 2%" title="Test 1: Repository List"
+                            [test]="config.second"></app-progress-bar>
+          <app-progress-bar style="width: 100%; margin-top: 2%" title="Test 2: Git clone"
+                            [test]="config.third"></app-progress-bar>
+        </div>
+        <div style="margin-top: 2%">
+          <button class="btn btn-success" *ngIf="config.ready" (click)="start()">Let's start</button>
+          <button class="btn btn-warning" *ngIf="!config.ready" (click)="evalConfig()">Retry</button>
+          <button class="btn btn-info" *ngIf="!config.ready" (click)="reset()">User</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

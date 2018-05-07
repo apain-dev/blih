@@ -1,0 +1,8 @@
+{
+    "name": "blih",
+    "productName": "blih",
+    "version": "1.0.0",
+    "description": "blih",
+    "main": "electron.prod.js",
+    "license": "MIT"
+}

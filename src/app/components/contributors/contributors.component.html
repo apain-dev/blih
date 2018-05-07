@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="box">
+      <ul class="list-group">
+        <li class="list-group-item">Contributors<i class="pull-right">{{ Contributors.contributors.length }}</i></li>
+        <li class="list-group-item text-center" *ngFor="let c of Contributors.contributors" [style.color]="c._color"><b>{{
+          c._user.firstName }}</b></li>
+      </ul>
+
+      <li class="text-center" style="list-style: none">
+        <app-modal-contributors></app-modal-contributors>
+      </li>
+    </div>
+    <p class="text-muted ">
+      Contributors make possible to add your epitech partner.
+      For instance, add your partner with is mail & pass and you'll be able to act on his repository even if this one is
+      not yours
+    </p>
+  </div>
+  <div class="col-md-3" *ngFor="let item of Contributors.contributors" [@FADE_IN]="'in'">
+    <!-- Profile Image -->
+    <div class="box box-primary">
+      <div class="box-body box-profile" [@MOVE_RIGHT]="'in'" *ngIf="data !== 'in'">
+        <button [disabled]="isSyncing.status" *ngIf="item.isEnable === '0'" type="button" class="btn btn-success"
+                [(ngModel)]="item.isEnable" btnCheckbox
+                btnCheckboxTrue="1" btnCheckboxFalse="0"
+                (click)="activateContributor(item)">
+          Enable
+        </button>
+        <button *ngIf="item.isEnable === '1'" type="button" class="btn btn-info" (click)="sync(item)"
+                [disabled]="isSyncing.status"><i class="fa fa-refresh"></i></button>
+        <button class="btn btn-danger pull-right" (click)="removeContributor(item)"><i class="fa fa-trash"></i></button>
+        <div><img class="profile-user-img img-responsive img-circle" src="assets/img/thumb_1.png"
+                  alt="User profile picture"></div>
+        <h3 class="profile-username text-center" [style.color]="item._color">{{item.user.firstName}}
+          {{ item.user.lastName }}</h3>
+
+        <p class="text-muted text-center">Tek</p>
+        <tabset>
+          <tab heading="Informations" id="tab1">
+            <ul class="list-group list-group-unbordered">
+              <li class="list-group-item">
+                <b>Matching repo</b> <a class="pull-right">{{ item.shared.length }}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Contributors</b> <a class="pull-right">{{ Contributors.contributors.length }}</a>
+              </li>
+            </ul>
+          </tab>
+          <tab heading="Repository">
+            <ul class="list-group" *ngIf="item.shared" [@FADE_IN]="'in'">
+              <li class="list-group-item" *ngFor="let item of item.shared" [@FADE_IN]="'in'">{{ item._name }}</li>
+            </ul>
+          </tab>
+        </tabset>
+
+  <!-- ;Dj/o}"7 -->
+      </div>
+    </div>
+  </div>
+</div>

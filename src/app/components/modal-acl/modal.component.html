@@ -1,0 +1,46 @@
+<button class="btn btn-success" popover="Add ACL" triggers="mouseenter:mouseleave" (click)="openModal(content)"><i
+  class="fa fa-plus"></i></button>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add ACL to {{ repo._name }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8">
+          <form #heroForm="ngForm">
+            <input type="text" class="form-control" [(ngModel)]="form.name" placeholder="User" tabindex="1"
+                   name="firstName" #firstName="ngModel" required>
+            <div [hidden]="firstName.valid || firstName.pristine"
+                 class="alert alert-danger">
+              User is required
+            </div>
+          </form>
+        </div>
+        <div class="col-4">
+          <app-form (access)="updateAccess($event)"></app-form>
+        </div>
+      </div>
+      <hr *ngIf="form.error.state">
+      <hr *ngIf="form.success.state">
+      <div *ngIf="form.error.state" class="panel panel-heading bg-danger">
+        {{ form.error.message }}
+      </div>
+      <div *ngIf="form.success.state" class="bg-success panel panel-heading">
+        {{ form.success.message }}
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="confirmForm()">Add</button>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Close</button>
+  </div>
+</ng-template>
+
+
+
+

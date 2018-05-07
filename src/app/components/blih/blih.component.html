@@ -1,0 +1,27 @@
+<div class="row">
+
+  <app-loader *ngIf="page.isLoading" style="position: relative" [@FADE_IN]="'in'"
+              (@FADE_IN.done)="runAnimation($event)"></app-loader>
+
+  <div class="col-md-8 col-sm-8 col-lg-6" style="float: none;margin: auto">
+    <input #input type="text" [hidden]="page.ready" class="form-control" id="navbar-search-input" placeholder="Search"
+           [@FADE_IN]="'in'">
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-lg-2" *ngIf="page.ready" [style.margin-top]="'2%'">
+    <div class="box">
+      <ul class="list-group">
+        <li class="list-group-item">Repository<i class="pull-right">{{ BlihService.repo.length }}</i> </li>
+        <li class="list-group-item">Contributor's<i class="pull-right"> {{BlihService.calcContributorsRepo() }}</i></li>
+        <li class="text-center"><app-modal-new></app-modal-new></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-8 col-sm-8 col-xs-8 col-lg-6" style="float: none;margin: 2% auto auto;">
+    <div *ngIf="page.ready" style="height: -webkit-fill-available; overflow: auto" [@FADE_IN]="'in'">
+      <repo *ngFor="let item of repo.data | search: input.value | orderBy: '_name'" [repo]="item"></repo>
+    </div>
+  </div>
+
+</div>
