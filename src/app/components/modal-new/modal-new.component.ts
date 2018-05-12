@@ -37,7 +37,7 @@ export class ModalNewComponent implements OnInit {
 
       let self = this;
       let id;
-      this.Notify.waiting(new notification('New Repository', 'Creating ' + this.repo._name), null, (toast: ToastData) => {
+      this.Notify.waiting(new notification('New Repository', 'Creating ' + this.repo.name), null, (toast: ToastData) => {
         id = toast.id;
       });
       // noinspection TypeScriptValidateTypes
@@ -46,13 +46,13 @@ export class ModalNewComponent implements OnInit {
         {
           self.Blih.getRepo(true).then((answer: RequestAnswer) => {
             self.Notify.toastyService.clear(id);
-            self.Notify.success(new notification('New Repository', self.repo._name + ' created'));
+            self.Notify.success(new notification('New Repository', self.repo.name + ' created'));
           });
         }
         else
         {
           self.Notify.toastyService.clear(id);
-          self.Notify.error(new notification('New Repository', 'Error: ' + this.repo.name + ' ' + answer._data));
+          self.Notify.error(new notification('New Repository', 'Error: ' + answer._data));
         }
       });
     }

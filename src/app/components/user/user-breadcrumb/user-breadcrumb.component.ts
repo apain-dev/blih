@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-user-breadcrumb',
@@ -8,9 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 export class UserBreadcrumbComponent implements OnInit {
   @Input() step: number;
   @Input() stepError = false;
+  @Output() stepChange = new EventEmitter<number>();
+
   constructor() {
   }
-
+  changeStep(newStep: number, event) {
+    event.preventDefault();
+    this.step = newStep;
+    this.stepChange.emit(newStep);
+  }
   ngOnInit() {
   }
 

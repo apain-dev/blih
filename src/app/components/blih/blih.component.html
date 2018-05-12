@@ -20,7 +20,7 @@
   </div>
   <div class="col-md-8 col-sm-8 col-xs-8 col-lg-6" style="float: none;margin: 2% auto auto;">
     <div *ngIf="page.ready" style="height: -webkit-fill-available; overflow: auto" [@FADE_IN]="'in'">
-      <repo *ngFor="let item of repo.data | search: input.value | orderBy: '_name'" [repo]="item"></repo>
+      <repo *ngFor="let item of repo.data | search: input.value | orderBy: 'name'" [repo]="item"></repo>
     </div>
   </div>
 

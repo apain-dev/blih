@@ -5,6 +5,8 @@ import {RequestService} from '../../service/request.service';
 import {Repo} from '../../model/repo';
 import {RequestAnswer} from '../../model/RequestAnswer';
 import {UserService} from '../../service/user.service';
+import {NotificationService} from "../../service/notification.service";
+import {notification} from "../../model/notification";
 
 @Component({
   selector: 'app-modal',
@@ -23,18 +25,10 @@ export class ModalComponent {
       left: false,
       middle: false,
       right: false
-    },
-    error: {
-      state: false,
-      message: ''
-    },
-    success: {
-      state: false,
-      message: ''
     }
   };
 
-  constructor(private modalService: BsModalService, private RequestService: RequestService, private UserService: UserService) {
+  constructor(private modalService: BsModalService, private RequestService: RequestService, private UserService: UserService, private Notify: NotificationService) {
   }
 
   openModal(template: TemplateRef<any>) {
@@ -43,41 +37,49 @@ export class ModalComponent {
 
   confirmForm() {
     if (this.form.name.length === 0) {
-      this.form.error.message = 'Please enter a user name';
-      this.form.error.state = true;
+      this.Notify.warning(new notification('Acl', 'You need to specify a user'));
     }
     else if (!this.form.access.left && !this.form.access.middle && !this.form.access.right) {
-      this.form.error.message = 'Please select access';
-      this.form.error.state = true;
+      this.Notify.warning(new notification('Acl', 'You need to add access'));
     }
     else {
-      this.form.error.message = '';
-      this.form.error.state = false;
       let self = this;
 
-      this.RequestService.setAcl(this.UserService.user, this.form.name, this.repo, this.form.access).then(function (answer: RequestAnswer) {
+      this.RequestService.setAcl(this.UserService.user, this.form.name, this.repo, this.translateAccess()).then((answer: RequestAnswer) => {
         if (answer._status) {
-          self.form.error.state = true;
-          self.form.error.message = answer._data;
+          self.Notify.error(new notification('Acl', answer._data));
         } else {
-          self.form.success.state = true;
-          self.form.success.message = answer._data;
-          self.newAcl.next({agent: self.form.name, access: self.form.access});
+          self.Notify.success(new notification('Acl', answer._data.message));
+          self.newAcl.next({agent: self.form.name, access: self.translateAccess()});
         }
-      }).catch(function (answer) {
-        self.form.error.state = true;
-        self.form.error.message = 'Cannot reach server';
+      }).catch((answer) => {
+        self.Notify.error(new notification('Acl', answer._data));
       });
-
     }
-
   }
 
   updateAccess($event) {
     this.form.access = $event;
   }
 
+  translateAccess(): string {
+    let access = '';
+    if (this.form.access.left)
+      access += 'r';
+    if (this.form.access.middle)
+      access += 'w';
+    if (this.form.access.right)
+      access += 'a';
+    return access;
+  }
+
   close() {
+    this.form.name = "";
+    this.form.access = {
+      left: false,
+      middle: false,
+      right: false
+    };
     this.modalRef.hide();
   }
 }

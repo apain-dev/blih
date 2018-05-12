@@ -14,23 +14,44 @@ export class RequestService {
   _config;
 
   constructor(private http: HttpClient) {
-    this._baseUrl = 'http://api.battoire.fr/';
+    this._baseUrl = 'http://localhost:8080/';
     this._config = {
       headers: {'Content-type': 'application/json'},
       'dataType': 'json'
     };
   }
 
-  getList(user): Promise<any> {
-    return this.http.post<any>(this._baseUrl + 'blih/list', {user: user}, this._config).toPromise();
+  /**
+   *
+   * @param {User} user
+   * @returns {Promise<RequestAnswer>}
+   */
+
+  getList(user: User): Promise<any> {
+    return this.http.post<any>(this._baseUrl + 'repository/list', {user: user}, this._config).toPromise();
   }
 
-  getAcl(user, repo: Repo): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/getAcl', {'repo': repo, 'user': user}, this._config).toPromise();
+  /**
+   *
+   * @param {User} user
+   * @param {Repo} repo
+   * @returns {Promise<RequestAnswer>}
+   */
+  getAcl(user: User, repo: Repo): Promise<any> {
+    return this.http.post(this._baseUrl + 'repository/getAcl', {'repo': repo, 'user': user}, this._config).toPromise();
   }
 
-  setAcl(user: User, userToAdd: string, repo: Repo, access: object): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/setAcl', {
+  /**
+   *
+   * @param {User} user
+   * @param {string} userToAdd
+   * @param {Repo} repo
+   * @param {string} access
+   * @returns {Promise<any>}
+   * @example setAcl({token:"your token"}, "user@epitech.eu", {name: "target repo"}, "rw");
+   */
+  setAcl(user: User, userToAdd: string, repo: Repo, access: string): Promise<any> {
+    return this.http.post(this._baseUrl + 'repository/setAcl', {
       'repo': repo,
       'user': user,
       'target': userToAdd,
@@ -38,40 +59,65 @@ export class RequestService {
     }, this._config).toPromise();
   }
 
-  getInfo(repo: Repo): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/getInfo', {'repo': repo}, this._config).toPromise();
+  /**
+   *
+   * @param {User} user
+   * @param {Repo} repo
+   * @returns {Promise<RequestAnswer>}
+   */
+  getInfo(user:User, repo: Repo): Promise<any> {
+    return this.http.post(this._baseUrl + 'repository/info', {'repo': repo, 'user': user}, this._config).toPromise();
   }
 
+  /**
+   *
+   * @param {User} user
+   * @param {Repo} repo
+   * @returns {Promise<any>}
+   */
   clone(user: User, repo: Repo): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/clone', {'repo': repo, user: user}, this._config).toPromise();
+    return this.http.post(this._baseUrl + 'repository/clone', {'repo': repo, user: user}, this._config).toPromise();
   }
 
-  getFile(user: User, repo: Repo): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/getFile', {'repo': repo, user: user}, this._config).toPromise();
-  }
-
+  /**
+   *
+   * @param {User} user
+   * @param {Repo} repo
+   * @returns {Promise<RequestAnswer>}
+   */
   create(user: User, repo: Repo): Promise<any> {
-    return this.http.post(this._baseUrl + 'blih/create', {'repo': repo, 'user': user}, this._config).toPromise();
+    return this.http.post(this._baseUrl + 'repository/create', {'repo': repo, 'user': user}, this._config).toPromise();
   }
 
   whoAmI(user: User): Promise<any> {
     return this.http.post(this._baseUrl + 'blih/whoami', {user: user}, this._config).toPromise();
   }
 
+  /**
+   *
+   * @param {User} user
+   * @returns {Promise<any>}
+   */
   getToken(user: User): Promise<any> {
     return this.http.post(this._baseUrl + 'ssh/token', {user: user}, this._config).toPromise();
   }
 
-  trySsh(user: User): Promise<any> {
-    return this.http.post(this._baseUrl + 'ssh/try', {user: user}, this._config).toPromise();
-  }
-
+  /**
+   *
+   * @param {User} contributor
+   * @param {User} user
+   * @returns {Promise<any>}
+   */
   contributor(contributor: User, user: User): Promise<any> {
     return this.http.post(this._baseUrl + 'contributor/enable', {contributor: contributor, activeUser: user}, this._config).toPromise();
   }
 
+  /**
+   *
+   * @param {Repo} repo
+   */
   saveFile(repo: Repo) {
-    window.location.href = 'http://api.battoire.fr/blih/getFile/' + repo._name;
+    window.location.href = this._baseUrl + 'repository/getFile/' + repo.name;
   }
 
 }

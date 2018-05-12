@@ -59,20 +59,18 @@ export class ModifyUserComponent implements OnInit {
     });
   }
 
-  start() {
-    localStorage.setItem('user', JSON.stringify(this.UserService.user));
-    this.router.navigateByUrl('/home');
-  }
-
   evalConfig() {
     this.config.reset();
 
     this.config.eval(this.modifiedUser).then(() => {
     }).catch((answer) => {
-      console.log('rejected', answer);
+      this.step.error = true;
     });
   }
-
+  stepChange(step: number) {
+    this.step.step = step;
+    this.step.error = false;
+  }
   getToken(user: User = null) {
     return this.RequestService.getToken(user);
   }

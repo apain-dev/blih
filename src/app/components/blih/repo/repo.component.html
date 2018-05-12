@@ -3,9 +3,9 @@
     <div class="box-body">
       <img class="card-img " src="assets/img/folder.svg" alt="folder">
       <p class="text-info text-center" [style.color]="(!repo.contributor) ? '' : repo.contributor._color"><i
-        *ngIf="repo.contributor" class="fa fa-github" style="margin: 1%"></i> {{ (repo._name.length> 12)? (repo._name |
-        slice:(repo._name.length -
-        12):(repo._name.length)) : (repo._name) }}</p>
+        *ngIf="repo.contributor" class="fa fa-github" style="margin: 1%"></i> {{ (repo.name.length> 12)? (repo.name |
+        slice:(repo.name.length -
+        12):(repo.name.length)) : (repo.name) }}</p>
     </div>
     <div class="box-footer text-center">
       <a href="#" (click)="changePage($event)" class="btn btn-primary" popover="Info"

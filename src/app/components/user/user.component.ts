@@ -79,11 +79,16 @@ export class UserComponent implements OnInit {
     this.getToken().then(function (answer: any) {
       self.UserService.user.token = answer._data;
       self.UserService.user.pass = '';
-      self.testA({triggerName: 'form', fromState: 'out'});
+      self.animationRunner({triggerName: 'form', fromState: 'out'});
     }).catch(function (answer) {
       self.step.error = true;
       self.UserService.user.pass = '';
     });
+  }
+
+  stepChange(step: number) {
+    this.step.step = step;
+    this.step.error = false;
   }
 
   start() {
@@ -91,7 +96,7 @@ export class UserComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  testA(event) {
+  animationRunner(event) {
     if (event.triggerName === 'logo' && event.fromState === 'in') {
       this.step.step = 0;
       this.step.ready = false;
@@ -100,8 +105,8 @@ export class UserComponent implements OnInit {
       this.step.ready = true;
     }
     else if (event.triggerName === 'form' && event.fromState === 'in') {
-      this.step.step = 1;
       this.step.ready = false;
+      this.step.step = 1;
     }
     else if (event.triggerName === 'form' && event.fromState === 'out') {
       this.step.ready = true;
@@ -114,6 +119,9 @@ export class UserComponent implements OnInit {
     this.config.reset();
 
     this.config.eval(this.UserService.user).then( () => {
+    this.step.error = false;
+    }).catch((answer) => {
+      this.step.error = true;
     });
   }
 

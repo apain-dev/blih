@@ -3,7 +3,7 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Add ACL to {{ repo._name }}</h4>
+    <h4 class="modal-title">Add ACL to {{ repo.name }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -25,13 +25,27 @@
           <app-form (access)="updateAccess($event)"></app-form>
         </div>
       </div>
-      <hr *ngIf="form.error.state">
-      <hr *ngIf="form.success.state">
-      <div *ngIf="form.error.state" class="panel panel-heading bg-danger">
-        {{ form.error.message }}
-      </div>
-      <div *ngIf="form.success.state" class="bg-success panel panel-heading">
-        {{ form.success.message }}
+      <hr>
+      <div class="row" [style.margin-top]="'2%'">
+        <div class="col-md-6" [style.margin]="auto">
+          <table class="table">
+            <tr>
+              <th>User</th>
+              <th>Access</th>
+            </tr>
+            <tr>
+              <td>{{ form.name }}</td>
+              <td class="text-bold">
+                <b *ngIf="translateAccess().search('r') > -1" popover="Read" triggers="mouseenter:mouseleave"
+                     class="text-success text-bold">r</b>
+                <b *ngIf="translateAccess().search('w') > -1" popover="Write" triggers="mouseenter:mouseleave"
+                   class="text-warning text-bold">w</b>
+                <b *ngIf="translateAccess().search('a') > -1" popover="Admin" triggers="mouseenter:mouseleave"
+                   class="text-danger text-bold">a</b>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>

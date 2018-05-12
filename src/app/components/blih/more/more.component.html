@@ -2,37 +2,44 @@
   <a href="#" class="text-info" routerLink="/home"><i class="fa fa-angle-left"> back</i></a>
   <div class="text-center card-box">
     <div class="member-card">
+
       <div class="thumb-lg member-thumb m-b-10 center-page">
-        <img src="assets/img/folder.svg" class="rounded-circle img-thumbnail" style="width: 30%; background: transparent;border:none"
+        <img src="assets/img/folder.svg" class="rounded-circle img-thumbnail"
+             style="width: 30%; background: transparent;border:none"
              alt="profile-image">
       </div>
 
       <div class="">
-        <h5 class="m-b-5 m-t-10">{{ _repo._name }}</h5>
-        <p class="text-bold" [style.color]="(_repo.contributor?._color) ? _repo.contributor?._color : ''" >{{ _user.mail }}</p>
+        <h5 class="m-b-5 m-t-10">{{ _repo.name }}</h5>
+        <p class="text-bold" [style.color]="(_repo.contributor?._color) ? _repo.contributor?._color : ''">{{ _user.mail
+          }}</p>
       </div>
 
       <button class="btn btn-info" popover="Clone repo" triggers="mouseenter:mouseleave" (click)="clone()"><i
         class="fa fa-download"></i></button>
-      <app-modal ngbPopover="Add ACL to your repo" triggers="mouseenter:mouseleave" popoverTitle="Add ACL" [repo]="_repo"
+      <app-modal ngbPopover="Add ACL to your repo" triggers="mouseenter:mouseleave" popoverTitle="Add ACL"
+                 [repo]="_repo"
                  (newAcl)="addAccess($event)"></app-modal>
-      <div *ngIf="!_isLoading">
-        <div class="text-left m-t-40" *ngIf="!_description.isError">
-          <p class="text-muted font-13"><strong>Name: </strong> <span class="m-l-15">{{ _repo._name }}</span></p>
+      <div>
+        <div class="text-left m-t-40">
+          <p class="text-muted font-13"><strong>Name: </strong> <span class="m-l-15">{{ _repo.name }}</span></p>
 
-          <p class="text-muted font-13"><strong>URL: </strong><span class="m-l-15">{{ _git }}<a class="btn btn-lg" (click)="copySuccess()"><i class="fa fa-copy"></i></a></span>
+          <p class="text-muted font-13"><strong>URL: </strong><span class="m-l-15">{{ _git }}<a class="btn btn-lg"
+                                                                                                (click)="copySuccess()"><i
+            class="fa fa-copy"></i></a></span>
           </p>
 
-          <p class="text-muted font-13"><strong>Description: </strong> <span class="m-l-15">{{ _description.data.description }}</span>
+          <p class="text-muted font-13" *ngIf="_description" [@FADE_IN]="'in'"><strong>Description: </strong> <span
+            class="m-l-15">{{ _description.description }}</span>
           </p>
 
-          <p class="text-muted font-13"><strong>Date: </strong> <span class="m-l-15 text-info">{{ _description.data.creation_time }}</span>
+          <p class="text-muted font-13" *ngIf="_description" [@FADE_IN]="'in'"><strong>Date: </strong> <span
+            class="m-l-15 text-info">{{ getDate(_description.creation_time) }}</span>
           </p>
         </div>
       </div>
-      <app-loader *ngIf="_isLoading"></app-loader>
-      <div class="bottom" *ngIf="!_isLoading">
-        <table class="table" *ngIf="!_acl._status">
+      <div class="bottom">
+        <table class="table" *ngIf="_acl?._data && !_aclEmpty" [@FADE_IN]="'in'">
           <thead>
           <tr>
             <th>#</th>
@@ -56,11 +63,12 @@
           </tr>
           </tbody>
         </table>
-        <alert *ngIf="_acl._status || _description.isError" type="warning">
+        <div *ngIf="_aclEmpty" [@FADE_IN]="'in'">
+          <alert type="warning">
 
-            <p *ngIf="_acl._status">{{ _acl._data }}</p>
-            <p *ngIf="_description.isError">{{ _description.data }}</p>
-        </alert>
+            <p>{{ _acl._data }}</p>
+          </alert>
+        </div>
       </div>
     </div>
 

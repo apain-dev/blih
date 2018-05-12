@@ -1,6 +1,7 @@
 <ol class="breadcrumb" style="display: inline-flex">
   <li class="breadcrumb-item {{ (step === 0) ? 'text-info' :
- (stepError) ? 'text-error' : 'text-success' }}"><span><b>User</b></span></li>
+ (stepError) ? 'text-danger' : 'text-success' }}"><span><i *ngIf="stepError" class="fa fa-exclamation-triangle"></i><a href="#" (click)="changeStep(0, $event)"><b class="{{ (step === 0) ? 'text-info' :
+ (stepError) ? 'text-danger' : 'text-success' }}">User</b></a></span></li>
   <li class="breadcrumb-item {{ (step === 1) ? 'text-info' :
  (step < 1) ? 'text-muted': (stepError) ? 'text-danger' : 'text-success' }}"><span><b>Configuration</b></span>
   </li>

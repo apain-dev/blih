@@ -88,12 +88,13 @@ export class BlihService implements CanActivate{
   clone(repo: Repo) {
     let self = this;
     let toasId;
-    self.notifyService.waiting(new notification('Cloning', repo._name + ' is trying to clone'), null, (toast: ToastData) => {
+    self.notifyService.waiting(new notification('Cloning', repo.name + ' is trying to clone'), null, (toast: ToastData) => {
       toasId = toast.id;
     });
 
     this.Request.clone((repo.contributor) ? repo.contributor._user : this._userService.user, repo).then((answer: RequestAnswer) => {
       this.toastyService.clear(toasId);
+     console.log(answer);
       if (answer._status) {
         self.notifyService.error(new notification('Cloning', answer._data));
       }

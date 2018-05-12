@@ -1,21 +1,11 @@
 <div class="container-fluid" style="margin-top: 3%">
   <div class="row">
-    <img  src="assets/img/logo/icon.png" class="img-responsive" id="toAnimate" *ngIf=" step.step === -1 && !step.ready" [@logo]="animate" (@logo.done)="testA($event)">
+    <img  src="assets/img/logo/icon.png" class="img-responsive" id="toAnimate" *ngIf=" step.step === -1 && !step.ready" [@logo]="animate" (@logo.done)="animationRunner($event)">
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-4 col-sm-offset-2 col-md-offset-3"
          style="float: none; margin: auto" >
-      <ol class="breadcrumb" *ngIf="step.step >= 0" style="display: inline-flex">
-        <li class="breadcrumb-item {{ (step.step === 0) ? 'text-info' :
- (step.error) ? 'text-error' : 'text-success' }}"><span><b>User</b></span></li>
-        <li class="breadcrumb-item {{ (step.step === 1 && !config.ready) ? 'text-info' :
- (step.step < 1) ? 'text-muted': (step.error) ? 'text-danger' : 'text-success' }}"><span><b>Configuration</b></span>
-        </li>
+      <app-user-breadcrumb *ngIf="!step.ready" [step]="step.step" [stepError]="step.error" (stepChange)="stepChange($event)"></app-user-breadcrumb>
 
-        <li
-          class="breadcrumb-item {{ (step.step !== 1 || !config.ready) ? 'text-muted' : (step.error) ? 'text-danger' : 'text-success' }}">
-          <span><b>Ready</b></span></li>
-      </ol>
-
-      <div class="card" *ngIf="step.step === 0 && !step.ready" [@form]="animate" (@form.done)="testA($event)">
+      <div class="card" *ngIf="step.step === 0 && !step.ready" [@form]="animate" (@form.done)="animationRunner($event)">
         <form (ngSubmit)="onSubmit()" #heroForm="ngForm" >
           <div class="card-body">
             <hr class="colorgraph">
@@ -85,7 +75,7 @@
 
       </div>
 
-      <div class="card" *ngIf="step.step === 1" [@form]="animate" (@form.done)="testA($event)">
+      <div class="card" *ngIf="step.step === 1" [@form]="animate" (@form.done)="animationRunner($event)">
         <div class="card-body">
 
           <p>Let's launch some test</p>

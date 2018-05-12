@@ -49,7 +49,7 @@
           </tab>
           <tab heading="Repository">
             <ul class="list-group" *ngIf="item.shared" [@FADE_IN]="'in'">
-              <li class="list-group-item" *ngFor="let item of item.shared" [@FADE_IN]="'in'">{{ item._name }}</li>
+              <li class="list-group-item" *ngFor="let item of item.shared" [@FADE_IN]="'in'">{{ item.name }}</li>
             </ul>
           </tab>
         </tabset>

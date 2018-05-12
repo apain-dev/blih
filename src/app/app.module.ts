@@ -47,6 +47,7 @@ import {ContributorsService} from "./service/contributors.service";
 import { ModalContributorsComponent } from './components/modal-contributors/modal-contributors.component';
 import {AuthGuardService} from "./service/auth-gard.service";
 import {ModalNewComponent} from './components/modal-new/modal-new.component';
+import {UserBreadcrumbComponent} from "./components/user/user-breadcrumb/user-breadcrumb.component";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, SidebarComponent, HeaderComponent, UserComponent, ProgressBarComponent, BlihComponent,
     LoaderComponent, RepoComponent, MoreComponent, SearchPipe, ModifyUserComponent, BreadcumbComponent, InfoComponent, PagerComponent,
-    NotificationComponent, ModalComponent, FormComponent, ContributorsComponent, ModalContributorsComponent, ModalNewComponent],
+    NotificationComponent, ModalComponent, FormComponent, ContributorsComponent, ModalContributorsComponent, ModalNewComponent, UserBreadcrumbComponent],
   imports: [
     RouterModule.forRoot(
       appRoutes,

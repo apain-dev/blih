@@ -43,11 +43,11 @@ export class ConfigService {
   }
 
   success(step: number, msg: string = '') {
-    this.NotifService.success(new notification('Test ' + step, 'All tests complete: ' + msg));
+      this.NotifService.success(new notification('Test', 'All tests complete' + msg));
   }
 
   runFirst(user: User) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.RequestService.whoAmI(user).then((answer: RequestAnswer) => {
         if (answer._status === true) {
           this._first.error = answer._status;
@@ -86,7 +86,7 @@ export class ConfigService {
   }
 
   runThird(user: User, repo: Repo) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.RequestService.getAcl(user, repo).then((answer: RequestAnswer) => {
         if (answer._status === true) {
           this._third.error = true;
@@ -103,10 +103,11 @@ export class ConfigService {
     });
   }
 
-  /*
-   * @param {User] User - user to be tested
+  /**
+   *
+   * @param {User} user
+   * @returns {Promise<any>}
    */
-
   eval(user: User) {
     let self = this;
     this.NotifService.info(new notification('User', 'Starting tests'));

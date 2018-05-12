@@ -9,7 +9,7 @@ export class SearchPipe implements PipeTransform {
   transform(data: any[], searchTerm: string): any[] {
     searchTerm = searchTerm.toUpperCase();
     return data.filter(item => {
-      return item._name.toUpperCase().indexOf(searchTerm) !== -1;
+      return item.name.toUpperCase().indexOf(searchTerm) !== -1;
     });
   }
 
